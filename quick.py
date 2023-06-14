@@ -1,7 +1,7 @@
 from PIL import Image
 import numpy as np
 
-GENERATIONS_NUM = 500
+GENERATIONS_NUM = 200
 POPULATION = 50
 WIDTH = 30
 HEIGHT = 30
@@ -35,7 +35,7 @@ def calcScore():
     global scores, parent_list
     scores = np.empty(POPULATION, int)
     # 色差を取得する
-    diff = parent_list - np.array(img_in)[np.newaxis, :, :, :]
+    diff = parent_list - np.array(img_in)[np.newaxis, :, :, :3]
     # 各色の差を2乗したものを合計した物をスコアにする
     scores = np.sum(np.square(diff), axis=(1, 2, 3))
     
