@@ -1,13 +1,16 @@
 from PIL import Image
 import numpy as np
 
-GENERATIONS_NUM = 1000
-POPULATION = 30
+GENERATIONS_NUM = 500
+POPULATION = 50
 WIDTH = 30
 HEIGHT = 30
 
+# 目的画像の指定
+file_name = input("ファイル名を入力")
+
 # 画像の読み込み
-img_in = Image.open("./Images/twitter.jpg")
+img_in = Image.open('./Images/' + file_name)
 img_in = img_in.resize((WIDTH, HEIGHT))
 
 # 出力画像の作成
