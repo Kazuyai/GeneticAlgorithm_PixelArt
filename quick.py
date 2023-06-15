@@ -4,6 +4,7 @@ import time
 
 WIDTH = 30
 HEIGHT = 30
+ELITE = 1
 
 # 目的画像の指定
 file_name = input("ファイル名を入力\n")
@@ -37,8 +38,11 @@ def createRandomDots():
 
 # スコアを計算する関数
 def calcScore():
+    # グローバル変数
     global scores, parent_list
+    # スコア配列を初期化する
     scores = np.empty(population, int)
+    
     # 色差を取得する
     diff = parent_list - np.array(img_in)[np.newaxis, :, :, :3]
     # 各色の差を2乗したものを合計した物をスコアにする
@@ -57,8 +61,12 @@ def createNextGeneration():
     # 子世代配列を初期化する
     child_list = np.empty((population, HEIGHT, WIDTH, 3), int)
     
+    # エリート保存戦略(前の世代のスコアが高い個体を再利用)
+    for i in range(ELITE):
+        child_list[i] = parent_list[i]
+    
     # 生成
-    for i in range(population):
+    for i in range(population - ELITE):
         # 親の選択
         parents = selectParent()
         # 交叉
@@ -67,7 +75,7 @@ def createNextGeneration():
         # 突然変異 (0.5%)
         mutation_mask = np.random.choice([False, True], size = (HEIGHT, WIDTH), p = [0.995, 0.005])
         child = np.where(mutation_mask[:, :, np.newaxis], np.random.randint(256, size = 3), child)
-        child_list[i] = child
+        child_list[i + ELITE] = child
     # 世代交代
     parent_list = child_list
 
