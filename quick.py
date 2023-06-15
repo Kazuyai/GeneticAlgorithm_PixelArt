@@ -1,5 +1,6 @@
 from PIL import Image
 import numpy as np
+import time
 
 WIDTH = 30
 HEIGHT = 30
@@ -93,6 +94,7 @@ def makeImage(dots_list):
 # 最初の世代を生成                
 createRandomDots()
 
+time_start = time.perf_counter()
 for i in range(generation_num):    
     calcScore()
     print(i + 1, "世代")
@@ -101,3 +103,4 @@ for i in range(generation_num):
         makeImage(parent_list[0])
         img_out.save('./Images/result' + str(i + 1) + '.png')
     createNextGeneration()
+print("経過時間:" + str(time.perf_counter() - time_start))
